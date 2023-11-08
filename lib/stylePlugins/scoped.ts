@@ -1,9 +1,8 @@
-import { Root } from 'postcss'
-import * as postcss from 'postcss'
+import { Root, PluginCreator } from 'postcss'
 // postcss-selector-parser does have typings but it's problematic to work with.
 const selectorParser = require('postcss-selector-parser')
 
-export default postcss.plugin('add-id', (options: any) => (root: Root) => {
+const pluginFn: PluginCreator<any> = options => ({ postcssPlugin: 'add-id', Once(root: Root) {
   const id: string = options
   const keyframes = Object.create(null)
 
@@ -98,4 +97,8 @@ export default postcss.plugin('add-id', (options: any) => (root: Root) => {
       }
     })
   }
+}
 })
+
+pluginFn.postcss = true
+export default pluginFn
